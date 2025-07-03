@@ -14,9 +14,42 @@ public class Program
     {
         ArrayList tasks = new ArrayList();
         Console.WriteLine("Welcome to the To-Do List Application!");
+        previousTasks(tasks);
         DisplayMenu(tasks);
 
 
+    }
+
+
+    public static void previousTasks(ArrayList tasks)//will read previous tasks from a file 
+    {
+
+        
+            using (System.IO.StreamReader file = new System.IO.StreamReader("tasks.txt"))
+        {
+            string line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    tasks.Add(line);  // Add each line back to the ArrayList
+            }
+        }
+            
+        
+        
+    }
+    public static void newTasks(ArrayList tasks)//will write new tasks to a file
+    {
+        if (tasks.Count != 0)
+        {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter("tasks.txt"))
+            {
+                foreach (var item in tasks)
+                {
+                    file.WriteLine(item.ToString());  // Write each item in a new line
+                }
+            }
+        }
+        
     }
 
     public static void DisplayMenu(ArrayList tasks)
@@ -24,6 +57,7 @@ public class Program
         int choice;
         do
         {
+            newTasks(tasks);
             Console.WriteLine("Please choose an option:");
             Console.WriteLine("1. Add a new task");
             Console.WriteLine("2. View tasks");
